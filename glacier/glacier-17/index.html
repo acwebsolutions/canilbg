@@ -5,8 +5,10 @@
 <title>Canil Blessing of God</title>
 <link rel="shortcut icon" href="/canilbg/glacier/glacier-17/images/dog.ico"/>
 <link href="tools/style.css" rel="stylesheet" type="text/css" />
+<link href="tools/jquery.growl.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript" src="tools/jquery.min.js"></script> 
+<script type="text/javascript" src="tools/jquery.growl.js"></script>
 <script type="text/javascript" src="tools/cufon-yui.js"></script>
 <script type="text/javascript" src="tools/Abraham_Lincoln_400.font.js"></script>
 <script type="text/javascript" src="tools/Inspiration_400.font.js"></script>
@@ -19,6 +21,25 @@
 	Cufon.replace('p.big_text strong, p.small_text strong', {fontFamily: 'Museo Slab 700'});
 </script>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#enviar").click(function(event) {
+			event.preventDefault();		
+				$.ajax({
+				//pegando a url apartir da action do form
+				url: 'sendemail.php',
+				//url: $(this).parent("form").attr("action"),
+				data: 'email=' +$("#email").val(),
+				type: 'POST',				
+				success: function(data){
+					$.growl.notice({title: "",  message: "Email enviado com sucesso!" });
+					$("#email").val("");
+				}
+			}); 
+		});	
+	});
+</script>
 
 </head>
 <body>
@@ -31,8 +52,8 @@
 		<p class="small_text">Cadastre seu email para receber novidades!</p>
 		<div class="form">
 			<div class="field_content">
-				<input class="field" type="text"  />
-				<input class="submit" type="button" value="" />
+				<input class="field" type="text" id="email"  />
+				<input class="submit" type="button" value="" id="enviar" />
 			</div>
 		</div>
 		<div class="clear"></div>
@@ -45,6 +66,7 @@
 		
 		
 	</div>
+	<div id="resultado"></div>
 </div>
 </body>
 </html>
